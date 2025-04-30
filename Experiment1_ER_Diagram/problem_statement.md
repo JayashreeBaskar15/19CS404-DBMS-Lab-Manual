@@ -55,19 +55,129 @@ University / Hospital (choose one)
 
 
 ## Entities and Attributes:
-- Entity1: Attributes
-- Entity2: Attributes
+- 1. Patient
+Attributes:
+
+Patient_id
+
+Patient_name
+
+DOB
+
+Gender
+
+Address
+
+2. Appointment
+Attributes:
+
+Token_no
+
+Time
+
+3. Doctor
+Attributes:
+
+Doctor_id
+
+Doctor_name
+
+Phone_no
+
+4. Treatment
+Attributes:
+
+Diagonis (should be corrected to "Diagnosis")
+
+Medicine
+
+Test_result
 ...
 
 ## Relationships and Constraints:
-- Relationship1 (Cardinality, Participation)
-- Relationship2 (Cardinality, Participation)
-...
+1. Books
+Entities involved: Patient — Appointment
+
+Relationship: A Patient can book one or more Appointments.
+
+Cardinality: One-to-Many (1:N) from Patient to Appointment
+
+Constraint: Each Appointment is booked by exactly one Patient.
+
+2. Conducted by
+Entities involved: Appointment — Doctor
+
+Relationship: An Appointment is conducted by a Doctor.
+
+Cardinality: Many-to-One (N:1) from Appointment to Doctor
+
+Constraint: A Doctor can conduct multiple Appointments, but each Appointment is conducted by exactly one Doctor.
+
+3. Visit
+Entities involved: Doctor — Treatment
+
+Relationship: A Doctor provides Treatment.
+
+Cardinality: One-to-Many (1:N) from Doctor to Treatment
+
+Constraint: Each Treatment is handled by one Doctor, but a Doctor can handle many Treatments.
+
+
 
 ## Extension (Prerequisite / Billing):
 - Explain how you modeled prerequisites or billing.
 
 ## Design Choices:
-Brief explanation of why you chose certain entities, relationships, and assumptions
+Entities :
+Patient
+
+Central to the healthcare system.
+
+Has personal attributes like name, DOB, gender, address, and a unique identifier (Patient_id).
+
+Assumption: A Patient can book multiple appointments.
+
+Appointment
+
+Represents the scheduling activity.
+
+Attributes like Token_no and Time are specific to an appointment.
+
+Assumption: Each appointment is linked to one patient and one doctor.
+
+Doctor
+
+Key provider of medical services.
+
+Includes identifying and contact information (Doctor_id, Doctor_name, Phone_no).
+
+Assumption: A doctor can conduct many appointments.
+
+Treatment
+
+Represents the outcome or process after a visit.
+
+Includes diagnosis, medicine, and test results.
+
+Assumption: Each treatment is given by a doctor, possibly linked to an appointment (though not shown explicitly).
+
+Relationships :
+Books (Patient–Appointment)
+
+Shows that patients initiate appointments.
+
+Reason: Reflects a common hospital workflow where patients book appointments.
+
+Conducted by (Appointment–Doctor)
+
+Associates a doctor with the appointment.
+
+Reason: Each appointment must be handled by one doctor, enabling accountability.
+
+Visit (Doctor–Treatment)
+
+Indicates the doctor administers or supervises treatment.
+
+
 
 ## RESULT
