@@ -51,7 +51,8 @@ Design a database for patient management, appointments, medical records, and bil
 University / Hospital (choose one)
 
 ## ER Diagram:
-![image](https://github.com/user-attachments/assets/9acab1ff-2660-40ca-b8af-a1be2ec26b8c)
+![er diagram hospital](https://github.com/user-attachments/assets/9501a0e0-0f49-4b5b-91c7-81982afd97ec)
+
 
 
 ## Entities and Attributes:
@@ -92,7 +93,10 @@ Diagonis (should be corrected to "Diagnosis")
 Medicine
 
 Test_result
-...
+
+5.Billing
+Bill_id
+Amount
 
 ## Relationships and Constraints:
 1. Books
@@ -122,11 +126,30 @@ Cardinality: One-to-Many (1:N) from Doctor to Treatment
 
 Constraint: Each Treatment is handled by one Doctor, but a Doctor can handle many Treatments.
 
+4.Pays (First instance):
+
+Connects Doctor to Billing
+
+5.Pays (Second instance):
+
+Connects Treatment to Billing
+
+Implies that billing occurs as a result of treatment.
+
 
 
 ## Extension (Prerequisite / Billing):
-- Explain how you modeled prerequisites or billing.
+- The Billing entity is linked after the Treatment process:
 
+Once a patient receives treatment, a billing event is triggered.
+
+Billing contains relevant information like:
+
+Bill_id
+
+Amount
+
+Test_result (possibly related to diagnostics/tests done)
 ## Design Choices:
 Entities :
 Patient
