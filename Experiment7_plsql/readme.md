@@ -37,7 +37,24 @@ END;
 **Expected Output:**  
 Greater number is: 80
 
----
+**PL/SQL CODE:**
+DECLARE
+    num1 NUMBER;
+    num2 NUMBER;
+    greatest NUMBER;
+BEGIN
+    num1 := 50;  
+    num2 := 80;  
+    IF num1 > num2 THEN
+        greatest := num1;
+    ELSE
+        greatest := num2;
+    END IF;
+    DBMS_OUTPUT.PUT_LINE('Greatest number is: ' || greatest);
+END;
+
+**OUTPUT:**
+![image](https://github.com/user-attachments/assets/c2e71e71-563b-4762-a32c-77e743192a24)
 
 ## 2. Write a PL/SQL program to Calculate Sum of First N Natural Numbers
 
@@ -50,7 +67,23 @@ Greater number is: 80
 **Expected Output:**  
 Sum of first 10 natural numbers is: 55
 
----
+**PL/SQL CODE:**
+DECLARE
+    n NUMBER := 10;  -- You can change this value as needed
+    sum NUMBER := 0;
+    i NUMBER := 1;
+BEGIN
+    WHILE i <= n LOOP
+        sum := sum + i;
+        i := i + 1;
+    END LOOP;
+
+    DBMS_OUTPUT.PUT_LINE('Sum of first ' || n || ' natural numbers is: ' || sum);
+END;
+
+**OUTPUT:**
+![image](https://github.com/user-attachments/assets/c244cde9-de39-4ed1-a655-83098f6876f9)
+
 
 ## 3. Write a PL/SQL program to generate Fibonacci series
 
@@ -90,5 +123,26 @@ Reversed number is 5351
 a = 10, b = 9, c = 15  
 Largest of three number is 15
 
+**PL/SQL CODE:**
+DECLARE
+    num1 NUMBER;
+    num2 NUMBER;
+    num3 NUMBER;
+    greatest NUMBER;
+BEGIN
+    num1 := 50;  
+    num2 := 90; 
+    num3 :=120; 
+    IF (num1 > num2) and (num1>num3) THEN
+        greatest := num1;
+    ELSIF (num2>num1) and (num2>num3) THEN
+        greatest := num2;
+    ELSE
+        greatest :=num3;
+    END IF;
+    DBMS_OUTPUT.PUT_LINE('Largest of three number is: ' || greatest);
+END;
+
+**OUTPUT:**
 ## RESULT
 Thus, the PL/SQL programs using variables, conditionals, and loops were executed successfully.
