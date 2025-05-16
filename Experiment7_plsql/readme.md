@@ -38,6 +38,7 @@ END;
 Greater number is: 80
 
 **PL/SQL CODE:**
+```sql
 DECLARE
     num1 NUMBER;
     num2 NUMBER;
@@ -52,7 +53,7 @@ BEGIN
     END IF;
     DBMS_OUTPUT.PUT_LINE('Greatest number is: ' || greatest);
 END;
-
+```
 **OUTPUT:**
 ![image](https://github.com/user-attachments/assets/c2e71e71-563b-4762-a32c-77e743192a24)
 
@@ -68,6 +69,7 @@ END;
 Sum of first 10 natural numbers is: 55
 
 **PL/SQL CODE:**
+```sql
 DECLARE
     n NUMBER := 10;  -- You can change this value as needed
     sum NUMBER := 0;
@@ -80,7 +82,7 @@ BEGIN
 
     DBMS_OUTPUT.PUT_LINE('Sum of first ' || n || ' natural numbers is: ' || sum);
 END;
-
+```
 **OUTPUT:**
 ![image](https://github.com/user-attachments/assets/c244cde9-de39-4ed1-a655-83098f6876f9)
 
@@ -98,6 +100,7 @@ n = 7
 Fibonacci sequence: 0, 1, 1, 2, 3, 5, 8
 
 **PL/SQL CODE:**
+```sql
 VARIABLE n NUMBER
 ACCEPT n NUMBER PROMPT 'n = '
 DECLARE
@@ -125,7 +128,7 @@ BEGIN
    END IF;
 END;
 /
-
+```
 **OUTPUT:**
 ![image](https://github.com/user-attachments/assets/92324c97-867d-49a8-ae92-884b6f8dbda4)
 
@@ -143,6 +146,7 @@ n = 1535
 Reversed number is 5351
 
 **PL/SQL CODE:**
+```sql
 DECLARE
    n NUMBER := 1535;         
    original NUMBER := n;     
@@ -159,7 +163,7 @@ BEGIN
    DBMS_OUTPUT.PUT_LINE('Reversed number is ' || reversed);
 END;
 /
-
+```
 **OUTPUT:**
 ![image](https://github.com/user-attachments/assets/6ec295d2-b459-4282-a217-d76ac42b54d0)
 
@@ -177,6 +181,7 @@ a = 10, b = 9, c = 15
 Largest of three number is 15
 
 **PL/SQL CODE:**
+```sql
 DECLARE
     num1 NUMBER;
     num2 NUMBER;
@@ -195,7 +200,7 @@ BEGIN
     END IF;
     DBMS_OUTPUT.PUT_LINE('Largest of three number is: ' || greatest);
 END;
-
+```
 **OUTPUT:**
 ![image](https://github.com/user-attachments/assets/b2cccb2a-db2c-48d9-bfe1-b63b1882de78)
 
