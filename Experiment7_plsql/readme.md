@@ -97,6 +97,38 @@ END;
 n = 7  
 Fibonacci sequence: 0, 1, 1, 2, 3, 5, 8
 
+**PL/SQL CODE:**
+VARIABLE n NUMBER
+ACCEPT n NUMBER PROMPT 'n = '
+DECLARE
+   a NUMBER := 0;
+   b NUMBER := 1;
+   c NUMBER;
+   i NUMBER := 3; 
+BEGIN
+   IF :n <= 0 THEN
+      DBMS_OUTPUT.PUT_LINE(' ');
+   ELSIF :n = 1 THEN
+      DBMS_OUTPUT.PUT_LINE('Fibonacci sequence: 0');
+   ELSIF :n = 2 THEN
+      DBMS_OUTPUT.PUT_LINE('Fibonacci sequence: 0, 1');
+   ELSE
+      DBMS_OUTPUT.PUT('Fibonacci sequence: 0, 1');
+      WHILE i <= :n LOOP
+         c := a + b;
+         DBMS_OUTPUT.PUT(', ' || c);
+         a := b;
+         b := c;
+         i := i + 1;
+      END LOOP;
+      DBMS_OUTPUT.NEW_LINE;
+   END IF;
+END;
+/
+
+**OUTPUT:**
+![image](https://github.com/user-attachments/assets/92324c97-867d-49a8-ae92-884b6f8dbda4)
+
 ---
 
 ## 4. Write a PL/SQL Program to display the number in Reverse Order
@@ -109,6 +141,27 @@ Fibonacci sequence: 0, 1, 1, 2, 3, 5, 8
 **Expected Output:**  
 n = 1535  
 Reversed number is 5351
+
+**PL/SQL CODE:**
+DECLARE
+   n NUMBER := 1535;         
+   original NUMBER := n;     
+   reversed NUMBER := 0;
+   digit NUMBER;
+BEGIN
+   WHILE n > 0 LOOP
+      digit := MOD(n, 10);              
+      reversed := (reversed * 10) + digit;  
+      n := TRUNC(n / 10);               
+    END LOOP;
+
+   DBMS_OUTPUT.PUT_LINE('n = ' || original);
+   DBMS_OUTPUT.PUT_LINE('Reversed number is ' || reversed);
+END;
+/
+
+**OUTPUT:**
+![image](https://github.com/user-attachments/assets/6ec295d2-b459-4282-a217-d76ac42b54d0)
 
 ---
 
@@ -144,5 +197,7 @@ BEGIN
 END;
 
 **OUTPUT:**
+![image](https://github.com/user-attachments/assets/b2cccb2a-db2c-48d9-bfe1-b63b1882de78)
+
 ## RESULT
 Thus, the PL/SQL programs using variables, conditionals, and loops were executed successfully.
