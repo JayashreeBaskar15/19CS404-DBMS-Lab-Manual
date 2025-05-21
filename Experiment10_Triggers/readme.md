@@ -30,6 +30,39 @@ END;
 - Create two tables: `employees` (for storing data) and `employee_log` (for logging the inserts).
 - Write an **AFTER INSERT** trigger on the `employees` table to log the new data into the `employee_log` table.
 
+**PL/SQL CODE:**
+```SQL
+CREATE TABLE employees (
+    emp_id NUMBER PRIMARY KEY,
+    emp_name VARCHAR2(100),
+    salary NUMBER
+);
+CREATE TABLE employee_log (
+    log_id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    emp_id NUMBER,
+    emp_name VARCHAR2(100),
+    salary NUMBER,
+    log_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    message VARCHAR2(255)
+);
+-- Trigger to log insert
+CREATE OR REPLACE TRIGGER trg_log_employee_insert
+AFTER INSERT ON employees
+FOR EACH ROW
+BEGIN
+    INSERT INTO employee_log (emp_id, emp_name, salary, message)
+    VALUES (:NEW.emp_id, :NEW.emp_name, :NEW.salary,
+            'Inserted: ' || :NEW.emp_name || ', Salary: ' || :NEW.salary);
+END;
+/
+-- Test the trigger
+INSERT INTO employees VALUES (1, 'Alice', 5000);
+SELECT * FROM employee_log;
+```
+
+**OUTPUT:**
+![image](https://github.com/user-attachments/assets/dfd5f551-f0c2-4e4f-b53a-6c7af91c6537)
+
 **Expected Output:**
 - A new entry is added to the `employee_log` table each time a new record is inserted into the `employees` table.
 
@@ -39,6 +72,28 @@ END;
 **Steps:**
 - Write a **BEFORE DELETE** trigger on the `sensitive_data` table.
 - Use `RAISE_APPLICATION_ERROR` to prevent deletion and issue a custom error message.
+
+**PL/SQL CODE:**
+```SQL
+CREATE TABLE sensitive_data (
+    id NUMBER PRIMARY KEY,
+    secret_info VARCHAR2(255)
+);
+-- Insert test data
+INSERT INTO sensitive_data VALUES (1, 'Top Secret');
+-- Trigger to prevent delete
+CREATE OR REPLACE TRIGGER trg_prevent_sensitive_delete
+BEFORE DELETE ON sensitive_data
+FOR EACH ROW
+BEGIN
+    RAISE_APPLICATION_ERROR(-20001, 'ERROR: Deletion not allowed on this table.');
+END;
+/
+-- Test: This will raise an error
+DELETE FROM sensitive_data WHERE id = 1;
+```
+**OUTPUT:**
+![image](https://github.com/user-attachments/assets/fb1a3aad-303e-4302-a726-f3a4dea4a3d9)
 
 **Expected Output:**
 - If an attempt is made to delete a record from `sensitive_data`, an error message is raised, e.g., `ERROR: Deletion not allowed on this table.`
@@ -50,6 +105,32 @@ END;
 - Add a `last_modified` column to the `products` table.
 - Write a **BEFORE UPDATE** trigger on the `products` table to set the `last_modified` column to the current timestamp whenever an update occurs.
 
+**PL/SQL CODE:**
+```SQL
+CREATE TABLE products (
+    product_id NUMBER PRIMARY KEY,
+    product_name VARCHAR2(100),
+    price NUMBER,
+    last_modified TIMESTAMP
+);
+-- Insert test data
+INSERT INTO products VALUES (1, 'Monitor', 10000, NULL);
+-- Trigger to update last_modified on update
+CREATE OR REPLACE TRIGGER trg_update_last_modified
+BEFORE UPDATE ON products
+FOR EACH ROW
+BEGIN
+    :NEW.last_modified := SYSTIMESTAMP;
+END;
+/
+-- Test the trigger
+UPDATE products SET price = 12000 WHERE product_id = 1;
+SELECT * FROM products;
+```
+
+**OUTPUT:**
+![image](https://github.com/user-attachments/assets/a6a738c2-c93f-45d6-89a9-2e8e5edf8e4e)
+
 **Expected Output:**
 - The `last_modified` column in the `products` table is updated automatically to the current date and time when any record is updated.
 
@@ -60,6 +141,40 @@ END;
 - Create an `audit_log` table with a counter column.
 - Write an **AFTER UPDATE** trigger on the `customer_orders` table to increment the counter in the `audit_log` table every time a record is updated.
 
+**PL/SQL CODE:**
+```SQL
+-- Create main and audit tables
+CREATE TABLE customer_orders (
+    order_id NUMBER PRIMARY KEY,
+    customer_name VARCHAR2(100),
+    order_amount NUMBER
+);
+CREATE TABLE audit_log (
+    id NUMBER PRIMARY KEY,
+    update_count NUMBER
+);
+-- Insert test data
+INSERT INTO customer_orders VALUES (1, 'John Doe', 5000);
+INSERT INTO audit_log VALUES (1, 0);
+-- Trigger to count updates
+CREATE OR REPLACE TRIGGER trg_count_updates
+AFTER UPDATE ON customer_orders
+FOR EACH ROW
+BEGIN
+    UPDATE audit_log
+    SET update_count = update_count + 1
+    WHERE id = 1;
+END;
+/
+-- Test the trigger
+UPDATE customer_orders SET order_amount = 5500 WHERE order_id = 1;
+UPDATE customer_orders SET customer_name = "John Doee" WHERE order_id = 1;
+SELECT * FROM audit_log;
+```
+
+**OUTPUT:**
+![image](https://github.com/user-attachments/assets/d32eb6d8-3c5d-4031-a4b7-183d3c1560e9)
+
 **Expected Output:**
 - The `audit_log` table will maintain a count of how many updates have been made to the `customer_orders` table.
 
@@ -69,6 +184,33 @@ END;
 **Steps:**
 - Write a **BEFORE INSERT** trigger on the `employees` table to check if the inserted salary meets a specific condition (e.g., salary must be greater than 3000).
 - If the condition is not met, raise an error to prevent the insert.
+
+**PL/SQL CODE:**
+```SQL
+CREATE TABLE employees (
+    emp_id NUMBER PRIMARY KEY,
+    emp_name VARCHAR2(100),
+    salary NUMBER
+);
+-- Trigger to block insert if salary < 3000
+CREATE OR REPLACE TRIGGER trg_salary_check
+BEFORE INSERT ON employees
+FOR EACH ROW
+BEGIN
+    IF :NEW.salary < 3000 THEN
+        RAISE_APPLICATION_ERROR(-20002, 'ERROR: Salary below minimum threshold.');
+    END IF;
+END;
+/
+-- Test 1: Valid insert
+INSERT INTO employees VALUES (2, 'Bob', 4000);
+-- Test 2: Invalid insert (will raise error)
+INSERT INTO employees VALUES (3, 'Eve', 2500);
+```
+
+**OUTPUT:**
+![image](https://github.com/user-attachments/assets/2d20e298-0263-4780-8ee7-afb07a5d6cbc)
+
 
 **Expected Output:**
 - If the inserted salary in the `employees` table is below the condition (e.g., salary < 3000), the insert operation is blocked, and an error message is raised, such as: `ERROR: Salary below minimum threshold.`
